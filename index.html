@@ -1,52 +1,287 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matthias Stumm</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision & Fortschritt | Matthias Stumm</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --eurobos-dark: #002B54;
+            --eurobos-blue: #0055A4;
+            --eurobos-gold: #C5A059;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 1);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--eurobos-dark) 0%, var(--eurobos-blue) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hintergrund-Layer für globale Wellen */
+        .global-waves {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        /* Signal-Sweeps (Radar-Effekt) */
+        .signal-sweep {
+            position: absolute;
+            width: 200%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: sweep 10s linear infinite;
+        }
+
+        @keyframes sweep {
+            from { transform: translateX(-100%) translateY(0); }
+            to { transform: translateX(100%) translateY(500px); }
+        }
+
+        /* Pulsierende Signal-Ringe */
+        .signal-ring {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: ring-pulse 12s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes ring-pulse {
+            from { transform: scale(0.2); opacity: 0; }
+            50% { opacity: 0.5; }
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Mehr Partikel (Bälle) über die ganze Seite */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-global 20s infinite ease-in-out;
+        }
+
+        @keyframes float-global {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) translateX(100px); opacity: 0; }
+        }
+
+        .wave-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            line-height: 0;
+        }
+
+        .wave-svg {
+            position: relative;
+            display: block;
+            width: calc(160% + 1.3px);
+            height: 180px;
+        }
+
+        .wave-path {
+            animation: wave-move 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+        }
+
+        @keyframes wave-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hover-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--eurobos-gold);
+            box-shadow: 0 30px 60px rgba(0, 43, 84, 0.15);
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased text-slate-900 flex flex-col min-h-screen relative">
 
-  <nav>
-    <a href="#">Start</a>
-    <a href="p1/">P1</a>
-    <a href="#">Über mich</a>
-    <a href="#kontakt">Kontakt</a>
-  </nav>
+    <!-- Globale Hintergrund-Wellen-Animation -->
+    <div class="global-waves">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 100 C 200 0, 400 200, 600 100 C 800 0, 1000 200, 1200 100" stroke="#0055A4" fill="transparent" stroke-width="2" class="wave-path" style="animation-duration: 15s"/>
+            <path d="M0 300 C 300 200, 600 400, 900 300 C 1200 200, 1500 400, 1800 300" stroke="#0055A4" fill="transparent" stroke-width="1" class="wave-path" style="animation-duration: 25s"/>
+            <path d="M0 600 C 150 500, 300 700, 450 600 C 600 500, 750 700, 900 600" stroke="#0055A4" fill="transparent" stroke-width="3" class="wave-path" style="animation-duration: 20s"/>
+        </svg>
+    </div>
 
-  <header>
-    <h1>Willkommen auf meiner Homepage</h1>
-    <p>Meine erste kleine Website mit HTML, CSS und JavaScript.</p>
-  </header>
+    <!-- Hero Bereich -->
+    <header class="hero-gradient pt-24 pb-48 md:pt-44 md:pb-80 flex items-center justify-center px-6">
+        
+        <!-- Hintergrund-Effekte -->
+        <div class="signal-sweep" style="top: 10%; animation-delay: 0s;"></div>
+        <div class="signal-sweep" style="top: 40%; animation-delay: 5s;"></div>
+        <div class="signal-sweep" style="top: 80%; animation-delay: 2s;"></div>
+        
+        <div class="signal-ring w-64 h-64" style="top: 15%; left: 5%; animation-delay: 0s;"></div>
+        <div class="signal-ring w-[500px] h-[500px]" style="top: -10%; right: -5%; animation-delay: 4s;"></div>
+        <div class="signal-ring w-80 h-80" style="bottom: 10%; left: 50%; animation-delay: 8s;"></div>
 
-  <main>
-    <section class="intro">
-      <div class="text">
-        <h2>Schön, dass Du da bist</h2>
-        <p>
-          Ich probiere gerade aus, wie man eine eigene Homepage erstellt.
-          Schritt für Schritt lerne ich dabei HTML, CSS und JavaScript.
-        </p>
+        <!-- Partikel-Wolke (Bälle) -->
+        <div class="particle w-2 h-2" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle w-4 h-4" style="left: 25%; animation-delay: 4s;"></div>
+        <div class="particle w-1 h-1" style="left: 40%; animation-delay: 2s;"></div>
+        <div class="particle w-6 h-6" style="left: 60%; animation-delay: 8s;"></div>
+        <div class="particle w-3 h-3" style="left: 85%; animation-delay: 5s;"></div>
+        <div class="particle w-2 h-2" style="left: 50%; animation-delay: 12s;"></div>
+        <div class="particle w-5 h-5" style="left: 15%; animation-delay: 7s;"></div>
 
-        <button id="meinButton">Mehr anzeigen</button>
-        <a href="#kontakt" class="button-link">Kontakt</a>
+        <div class="max-w-4xl w-full text-center relative z-10">
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-8 leading-[0.95] tracking-tighter">
+                Mut zur <span class="text-amber-400">Vision.</span>
+            </h1>
+            <p class="text-lg md:text-3xl text-blue-100 font-light max-w-2xl mx-auto leading-relaxed italic opacity-80">
+                „Geh voran, mit der Kenntnis, was hinter dir liegt.“
+            </p>
+        </div>
 
-        <p id="ausgabe"></p>
-      </div>
+        <!-- Hero Wellen -->
+        <div class="wave-container">
+            <svg class="wave-svg" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g>
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(248, 250, 252, 0.4)" class="wave-path" style="animation-duration: 8s;"/>
+                    <use xlink:href="#gentle-wave" x="48" y="2" fill="rgba(248, 250, 252, 0.3)" class="wave-path" style="animation-duration: 11s;"/>
+                    <use xlink:href="#gentle-wave" x="48" y="4" fill="rgba(248, 250, 252, 0.2)" class="wave-path" style="animation-duration: 15s;"/>
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#f8fafc" class="wave-path" style="animation-duration: 25s;"/>
+                </g>
+            </svg>
+        </div>
+    </header>
 
-      <div class="bild">
-        <img src="bild.jpg" alt="Mein Bild">
-      </div>
-    </section>
-  </main>
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 -mt-20 pb-24 relative z-20 flex-grow w-full">
+        
+        <div class="glass-card rounded-[2.5rem] p-8 md:p-16 shadow-2xl shadow-blue-900/10 mb-12">
+            
+            <div class="reveal space-y-12">
+                <div class="max-w-3xl mx-auto text-center">
+                    <p class="text-2xl md:text-3xl font-light leading-snug text-slate-800">
+                        Es ist unvorstellbar, welche <span class="font-bold text-blue-700">neuen Werkzeuge</span> uns heute zur Verfügung stehen.
+                    </p>
+                </div>
 
-  <section id="kontakt" class="kontakt">
-    <h2>Kontakt</h2>
-    <p>Hier könnte später Dein Kontaktbereich stehen.</p>
-    <p>E-Mail: info@beispiel.de</p>
-  </section>
+                <!-- Drei Säulen -->
+                <div class="grid md:grid-cols-3 gap-6 pt-8">
+                    <!-- Säule 1: Mut (Textänderung ohne Farbe) -->
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-600/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Mut</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Geh mutig und interessiert an die neuen Themen ran, um das Optimale für deine Kunden, für dich und dein Unternehmen zu erzielen.</p>
+                    </div>
 
-  <script src="script.js"></script>
+                    <!-- Säule 2 -->
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-amber-500/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Werkzeuge</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Vertrieb 4.0 bedeutet, die Dynamik von heute zu nutzen, um die Ergebnisse von morgen zu sichern.</p>
+                    </div>
+
+                    <!-- Säule 3 -->
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-12 h-12 bg-slate-400 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-slate-400/20">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Leben</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Und das alles nennt man das Leben. Es ist anregend, fordernd und absolut spannend.</p>
+                    </div>
+                </div>
+
+                <div class="text-center pt-12">
+                    <button onclick="toggleInfo()" class="group inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-slate-900/20">
+                        Potenzial entfesseln
+                        <span class="w-8 h-px bg-white/30 group-hover:w-12 transition-all"></span>
+                    </button>
+                    
+                    <div id="infoPanel" class="hidden mt-12 p-8 bg-white border border-slate-100 text-slate-600 rounded-[2rem] text-left animate-fade-in shadow-sm">
+                        <p class="text-lg font-light leading-relaxed italic">
+                            „Die Zeiten sind anders, als wir es gewohnt sind. Doch wer die Kenntnis darüber besitzt, was hinter ihm liegt, kann den Weg nach vorne sicher gestalten.“
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full text-center py-16 text-slate-500 border-t border-slate-100 bg-white relative z-30">
+        <div class="max-w-4xl mx-auto px-6">
+            <p class="font-bold text-slate-900 tracking-wide text-xl">Matthias Stumm — Koblenz — 2026</p>
+            <p class="text-xs opacity-50 mt-2 uppercase tracking-[0.3em]">Strategy & Visionary Leadership</p>
+            
+            <div class="flex justify-center gap-6 mt-10 opacity-20">
+                <div class="w-16 h-px bg-slate-400"></div>
+                <div class="w-3 h-3 bg-slate-400 rounded-full"></div>
+                <div class="w-16 h-px bg-slate-400"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function toggleInfo() {
+            const panel = document.getElementById('infoPanel');
+            panel.classList.toggle('hidden');
+            if(!panel.classList.contains('hidden')) {
+                setTimeout(() => {
+                    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
+    </script>
 </body>
 </html>
