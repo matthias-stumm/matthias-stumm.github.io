@@ -41,7 +41,7 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.15;
+            opacity: 0.12;
             pointer-events: none;
         }
 
@@ -49,45 +49,45 @@
         .signal-sweep {
             position: absolute;
             width: 200%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: sweep 10s linear infinite;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: sweep 12s linear infinite;
         }
 
         @keyframes sweep {
             from { transform: translateX(-100%) translateY(0); }
-            to { transform: translateX(100%) translateY(500px); }
+            to { transform: translateX(100%) translateY(400px); }
         }
 
         /* Pulsierende Signal-Ringe */
         .signal-ring {
             position: absolute;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
             border-radius: 50%;
-            animation: ring-pulse 12s infinite linear;
+            animation: ring-pulse 15s infinite linear;
             pointer-events: none;
         }
 
         @keyframes ring-pulse {
             from { transform: scale(0.2); opacity: 0; }
-            50% { opacity: 0.5; }
+            50% { opacity: 0.4; }
             to { transform: scale(4); opacity: 0; }
         }
 
         /* Mehr Partikel (Bälle) über die ganze Seite */
         .particle {
             position: absolute;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.25);
             border-radius: 50%;
             pointer-events: none;
-            animation: float-global 20s infinite ease-in-out;
+            animation: float-global 25s infinite ease-in-out;
         }
 
         @keyframes float-global {
             0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            20% { opacity: 0.6; }
-            80% { opacity: 0.6; }
-            100% { transform: translateY(-20vh) translateX(100px); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-20vh) translateX(80px); opacity: 0; }
         }
 
         .wave-container {
@@ -102,7 +102,11 @@
             position: relative;
             display: block;
             width: calc(160% + 1.3px);
-            height: 180px;
+            height: 120px; /* Reduziert für Mobile */
+        }
+
+        @media (min-width: 768px) {
+            .wave-svg { height: 180px; }
         }
 
         .wave-path {
@@ -116,7 +120,7 @@
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
             transition: all 0.8s ease-out;
         }
 
@@ -126,9 +130,9 @@
         }
 
         .hover-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-8px);
             border-color: var(--eurobos-gold);
-            box-shadow: 0 30px 60px rgba(0, 43, 84, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 43, 84, 0.12);
         }
     </style>
 </head>
@@ -137,38 +141,34 @@
     <!-- Globale Hintergrund-Wellen-Animation -->
     <div class="global-waves">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 100 C 200 0, 400 200, 600 100 C 800 0, 1000 200, 1200 100" stroke="#0055A4" fill="transparent" stroke-width="2" class="wave-path" style="animation-duration: 15s"/>
-            <path d="M0 300 C 300 200, 600 400, 900 300 C 1200 200, 1500 400, 1800 300" stroke="#0055A4" fill="transparent" stroke-width="1" class="wave-path" style="animation-duration: 25s"/>
-            <path d="M0 600 C 150 500, 300 700, 450 600 C 600 500, 750 700, 900 600" stroke="#0055A4" fill="transparent" stroke-width="3" class="wave-path" style="animation-duration: 20s"/>
+            <path d="M0 100 C 200 0, 400 200, 600 100 C 800 0, 1000 200, 1200 100" stroke="#0055A4" fill="transparent" stroke-width="2" class="wave-path" style="animation-duration: 18s"/>
+            <path d="M0 300 C 300 200, 600 400, 900 300 C 1200 200, 1500 400, 1800 300" stroke="#0055A4" fill="transparent" stroke-width="1" class="wave-path" style="animation-duration: 28s"/>
+            <path d="M0 600 C 150 500, 300 700, 450 600 C 600 500, 750 700, 900 600" stroke="#0055A4" fill="transparent" stroke-width="3" class="wave-path" style="animation-duration: 22s"/>
         </svg>
     </div>
 
     <!-- Hero Bereich -->
-    <header class="hero-gradient pt-24 pb-48 md:pt-44 md:pb-80 flex items-center justify-center px-6">
+    <header class="hero-gradient pt-20 pb-40 md:pt-44 md:pb-80 flex items-center justify-center px-6">
         
         <!-- Hintergrund-Effekte -->
-        <div class="signal-sweep" style="top: 10%; animation-delay: 0s;"></div>
-        <div class="signal-sweep" style="top: 40%; animation-delay: 5s;"></div>
-        <div class="signal-sweep" style="top: 80%; animation-delay: 2s;"></div>
+        <div class="signal-sweep" style="top: 15%; animation-delay: 0s;"></div>
+        <div class="signal-sweep" style="top: 45%; animation-delay: 6s;"></div>
         
-        <div class="signal-ring w-64 h-64" style="top: 15%; left: 5%; animation-delay: 0s;"></div>
-        <div class="signal-ring w-[500px] h-[500px]" style="top: -10%; right: -5%; animation-delay: 4s;"></div>
-        <div class="signal-ring w-80 h-80" style="bottom: 10%; left: 50%; animation-delay: 8s;"></div>
+        <div class="signal-ring w-48 h-48 md:w-64 md:h-64" style="top: 15%; left: 5%; animation-delay: 0s;"></div>
+        <div class="signal-ring w-[300px] h-[300px] md:w-[500px] md:h-[500px]" style="top: -5%; right: -5%; animation-delay: 4s;"></div>
 
         <!-- Partikel-Wolke (Bälle) -->
-        <div class="particle w-2 h-2" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle w-4 h-4" style="left: 25%; animation-delay: 4s;"></div>
-        <div class="particle w-1 h-1" style="left: 40%; animation-delay: 2s;"></div>
-        <div class="particle w-6 h-6" style="left: 60%; animation-delay: 8s;"></div>
-        <div class="particle w-3 h-3" style="left: 85%; animation-delay: 5s;"></div>
-        <div class="particle w-2 h-2" style="left: 50%; animation-delay: 12s;"></div>
-        <div class="particle w-5 h-5" style="left: 15%; animation-delay: 7s;"></div>
+        <div class="particle w-2 h-2" style="left: 15%; animation-delay: 0s;"></div>
+        <div class="particle w-4 h-4" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle w-1 h-1" style="left: 45%; animation-delay: 2s;"></div>
+        <div class="particle w-5 h-5" style="left: 65%; animation-delay: 8s;"></div>
+        <div class="particle w-3 h-3" style="left: 80%; animation-delay: 5s;"></div>
 
         <div class="max-w-4xl w-full text-center relative z-10">
-            <h1 class="text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-8 leading-[0.95] tracking-tighter">
+            <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-6 md:mb-10 leading-[1] tracking-tighter">
                 Mut zur <span class="text-amber-400">Vision.</span>
             </h1>
-            <p class="text-lg md:text-3xl text-blue-100 font-light max-w-2xl mx-auto leading-relaxed italic opacity-80">
+            <p class="text-lg md:text-3xl text-blue-100 font-light max-w-2xl mx-auto leading-relaxed italic opacity-85 px-4">
                 „Geh voran, mit der Kenntnis, was hinter dir liegt.“
             </p>
         </div>
@@ -181,8 +181,7 @@
                 </defs>
                 <g>
                     <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(248, 250, 252, 0.4)" class="wave-path" style="animation-duration: 8s;"/>
-                    <use xlink:href="#gentle-wave" x="48" y="2" fill="rgba(248, 250, 252, 0.3)" class="wave-path" style="animation-duration: 11s;"/>
-                    <use xlink:href="#gentle-wave" x="48" y="4" fill="rgba(248, 250, 252, 0.2)" class="wave-path" style="animation-duration: 15s;"/>
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(248, 250, 252, 0.2)" class="wave-path" style="animation-duration: 13s;"/>
                     <use xlink:href="#gentle-wave" x="48" y="7" fill="#f8fafc" class="wave-path" style="animation-duration: 25s;"/>
                 </g>
             </svg>
@@ -190,55 +189,56 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-6 -mt-20 pb-24 relative z-20 flex-grow w-full">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 -mt-16 md:-mt-20 pb-20 relative z-20 flex-grow w-full">
         
-        <div class="glass-card rounded-[2.5rem] p-8 md:p-16 shadow-2xl shadow-blue-900/10 mb-12">
+        <div class="glass-card rounded-[1.5rem] md:rounded-[2.5rem] p-6 sm:p-10 md:p-16 shadow-2xl shadow-blue-900/10 mb-12">
             
-            <div class="reveal space-y-12">
+            <div class="reveal space-y-10 md:space-y-12">
                 <div class="max-w-3xl mx-auto text-center">
-                    <p class="text-2xl md:text-3xl font-light leading-snug text-slate-800">
-                        Es ist unvorstellbar, welche <span class="font-bold text-blue-700">neuen Werkzeuge</span> uns heute zur Verfügung stehen.
+                    <!-- "neuen Werkzeuge" ohne Farbe/Fettung -->
+                    <p class="text-xl md:text-3xl font-light leading-snug text-slate-800">
+                        Es ist unvorstellbar, welche neuen Werkzeuge uns heute zur Verfügung stehen.
                     </p>
                 </div>
 
                 <!-- Drei Säulen -->
-                <div class="grid md:grid-cols-3 gap-6 pt-8">
-                    <!-- Säule 1: Mut (Textänderung ohne Farbe) -->
-                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
-                        <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-600/20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 md:pt-8">
+                    <!-- Säule 1 -->
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-xl md:rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-blue-600/20">
+                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Mut</h3>
                         <p class="text-sm text-slate-600 leading-relaxed">Geh mutig und interessiert an die neuen Themen ran, um das Optimale für deine Kunden, für dich und dein Unternehmen zu erzielen.</p>
                     </div>
 
                     <!-- Säule 2 -->
-                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
-                        <div class="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-amber-500/20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-amber-500 rounded-xl md:rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-amber-500/20">
+                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 011-1h1a2 2 0 100-4H7a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Werkzeuge</h3>
                         <p class="text-sm text-slate-600 leading-relaxed">Vertrieb 4.0 bedeutet, die Dynamik von heute zu nutzen, um die Ergebnisse von morgen zu sichern.</p>
                     </div>
 
                     <!-- Säule 3 -->
-                    <div class="hover-card transition-all duration-300 bg-slate-50 p-8 rounded-3xl border border-transparent shadow-sm">
-                        <div class="w-12 h-12 bg-slate-400 rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-slate-400/20">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                    <div class="hover-card transition-all duration-300 bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-3xl border border-transparent shadow-sm">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-slate-400 rounded-xl md:rounded-2xl flex items-center justify-center text-white mb-6 shadow-lg shadow-slate-400/20">
+                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Leben</h3>
                         <p class="text-sm text-slate-600 leading-relaxed">Und das alles nennt man das Leben. Es ist anregend, fordernd und absolut spannend.</p>
                     </div>
                 </div>
 
-                <div class="text-center pt-12">
-                    <button onclick="toggleInfo()" class="group inline-flex items-center gap-3 bg-slate-900 text-white px-10 py-5 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-slate-900/20">
+                <div class="text-center pt-8 md:pt-12">
+                    <button onclick="toggleInfo()" class="group inline-flex items-center gap-3 bg-slate-900 text-white px-8 md:px-10 py-4 md:py-5 rounded-xl md:rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-slate-900/20 text-sm md:text-base">
                         Potenzial entfesseln
-                        <span class="w-8 h-px bg-white/30 group-hover:w-12 transition-all"></span>
+                        <span class="w-6 md:w-8 h-px bg-white/30 group-hover:w-10 md:group-hover:w-12 transition-all"></span>
                     </button>
                     
-                    <div id="infoPanel" class="hidden mt-12 p-8 bg-white border border-slate-100 text-slate-600 rounded-[2rem] text-left animate-fade-in shadow-sm">
-                        <p class="text-lg font-light leading-relaxed italic">
+                    <div id="infoPanel" class="hidden mt-8 md:mt-12 p-6 md:p-8 bg-white border border-slate-100 text-slate-600 rounded-2xl md:rounded-[2rem] text-left animate-fade-in shadow-sm">
+                        <p class="text-base md:text-lg font-light leading-relaxed italic">
                             „Die Zeiten sind anders, als wir es gewohnt sind. Doch wer die Kenntnis darüber besitzt, was hinter ihm liegt, kann den Weg nach vorne sicher gestalten.“
                         </p>
                     </div>
@@ -248,15 +248,15 @@
     </main>
 
     <!-- Footer -->
-    <footer class="w-full text-center py-16 text-slate-500 border-t border-slate-100 bg-white relative z-30">
-        <div class="max-w-4xl mx-auto px-6">
-            <p class="font-bold text-slate-900 tracking-wide text-xl">Matthias Stumm — Koblenz — 2026</p>
-            <p class="text-xs opacity-50 mt-2 uppercase tracking-[0.3em]">Strategy & Visionary Leadership</p>
+    <footer class="w-full text-center py-10 md:py-16 text-slate-500 border-t border-slate-100 bg-white relative z-30 px-6">
+        <div class="max-w-4xl mx-auto">
+            <p class="font-bold text-slate-900 tracking-wide text-lg md:text-xl">Matthias Stumm — Koblenz — 2026</p>
+            <p class="text-xs opacity-50 mt-2 uppercase tracking-[0.2em]">Strategy & Visionary Leadership</p>
             
-            <div class="flex justify-center gap-6 mt-10 opacity-20">
-                <div class="w-16 h-px bg-slate-400"></div>
-                <div class="w-3 h-3 bg-slate-400 rounded-full"></div>
-                <div class="w-16 h-px bg-slate-400"></div>
+            <div class="flex justify-center gap-4 md:gap-6 mt-8 md:mt-10 opacity-20">
+                <div class="w-12 md:w-16 h-px bg-slate-400"></div>
+                <div class="w-2 md:w-3 h-2 md:h-3 bg-slate-400 rounded-full"></div>
+                <div class="w-12 md:w-16 h-px bg-slate-400"></div>
             </div>
         </div>
     </footer>
