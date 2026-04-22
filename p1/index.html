@@ -102,7 +102,7 @@
             position: relative;
             display: block;
             width: calc(160% + 1.3px);
-            height: 120px; /* Reduziert für Mobile */
+            height: 120px;
         }
 
         @media (min-width: 768px) {
@@ -148,7 +148,7 @@
     </div>
 
     <!-- Hero Bereich -->
-    <header class="hero-gradient pt-20 pb-40 md:pt-44 md:pb-80 flex items-center justify-center px-6">
+    <header class="hero-gradient pt-20 pb-40 md:pt-44 md:pb-80 flex items-center justify-center px-6 text-center">
         
         <!-- Hintergrund-Effekte -->
         <div class="signal-sweep" style="top: 15%; animation-delay: 0s;"></div>
@@ -164,13 +164,18 @@
         <div class="particle w-5 h-5" style="left: 65%; animation-delay: 8s;"></div>
         <div class="particle w-3 h-3" style="left: 80%; animation-delay: 5s;"></div>
 
-        <div class="max-w-4xl w-full text-center relative z-10">
+        <div class="max-w-4xl w-full relative z-10">
             <h1 class="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-extrabold text-white mb-6 md:mb-10 leading-[1] tracking-tighter">
                 Mut zur <span class="text-amber-400">Vision.</span>
             </h1>
-            <p class="text-lg md:text-3xl text-blue-100 font-light max-w-2xl mx-auto leading-relaxed italic opacity-85 px-4">
-                „Geh voran, mit der Kenntnis, was hinter dir liegt.“
-            </p>
+            <div class="max-w-2xl mx-auto px-4">
+                <p class="text-lg md:text-3xl text-blue-100 font-light leading-relaxed italic opacity-85 mb-2">
+                    „Geh voran, mit der Kenntnis, was hinter dir liegt.“
+                </p>
+                <p class="text-xs md:text-sm text-blue-200 tracking-[0.2em] opacity-70">
+                    Matthias Stumm, EuroBOS
+                </p>
+            </div>
         </div>
 
         <!-- Hero Wellen -->
@@ -195,7 +200,6 @@
             
             <div class="reveal space-y-10 md:space-y-12">
                 <div class="max-w-3xl mx-auto text-center">
-                    <!-- "neuen Werkzeuge" ohne Farbe/Fettung -->
                     <p class="text-xl md:text-3xl font-light leading-snug text-slate-800">
                         Es ist unvorstellbar, welche neuen Werkzeuge uns heute zur Verfügung stehen.
                     </p>
