@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitenkarte | Matthias Stumm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --eurobos-dark: #002B54;
+            --eurobos-blue: #0055A4;
+            --eurobos-gold: #C5A059;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--eurobos-dark) 0%, var(--eurobos-blue) 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 1);
+        }
+        #qrcode img {
+            margin: 0 auto;
+            border: 6px solid white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-900 flex flex-col min-h-screen">
 
+    <!-- Verkleinerter blauer Balken -->
+    <header class="hero-gradient h-20 md:h-28 relative overflow-hidden">
+        <svg class="absolute bottom-0 w-full opacity-20" viewBox="0 24 150 28" preserveAspectRatio="none">
+            <path d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" fill="white" />
+        </svg>
+    </header>
+
+    <!-- Angepasster negativer Margin für den kompakten Look -->
+    <main class="max-w-md mx-auto px-4 sm:px-6 -mt-10 md:-mt-12 relative z-20 w-full flex-grow pb-12">
+        <div class="glass-card rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-2xl text-center">
+            
+            <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1 tracking-tight">Matthias Stumm</h1>
+            <p class="text-blue-600 font-semibold mb-6 md:mb-8 uppercase tracking-widest text-[10px] md:text-xs">Strategy & Visionary Leadership</p>
+
+            <div class="space-y-3 text-left mb-6">
+                <!-- Unternehmen & Adresse -->
+                <div class="p-3 md:p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <p class="text-[9px] md:text-[10px] text-slate-400 uppercase font-bold mb-1 tracking-wider">Unternehmen & Standort</p>
+                    <p class="font-bold text-slate-800 text-sm md:text-base">EuroBOS GmbH</p>
+                    <p class="text-xs md:text-sm text-slate-600 leading-tight">Zaunheimer Str. 7a, 56072 Koblenz</p>
+                </div>
+
+                <!-- Kontakt Daten -->
+                <div class="grid grid-cols-1 gap-2 md:gap-3">
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-3">
+                        <div class="text-blue-600 shrink-0">
+                            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-width="2"/></svg>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-[9px] md:text-[10px] text-slate-400 uppercase font-bold tracking-tight">Zentrale / Durchwahl</p>
+                            <p class="text-xs md:text-sm font-medium truncate">0261-9216373-0 / <span class="text-blue-700">-33</span></p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-3">
+                        <div class="text-blue-600 shrink-0">
+                            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-width="2" stroke-linecap="round"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-[9px] md:text-[10px] text-slate-400 uppercase font-bold tracking-tight">Mobil</p>
+                            <p class="text-xs md:text-sm font-medium">0171-62 444 72</p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-3">
+                        <div class="text-blue-600 shrink-0">
+                            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 012 2v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7a2 2 0 012-2z" stroke-width="2"/></svg>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-[9px] md:text-[10px] text-slate-400 uppercase font-bold tracking-tight">Email</p>
+                            <p class="text-xs md:text-sm font-medium truncate">M.Stumm@EuroBOS.de</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="mb-6">
+                <p class="text-[9px] text-slate-400 uppercase font-bold mb-3 tracking-[0.2em] text-center">Scan zum Speichern</p>
+                <div id="qrcode" class="flex justify-center scale-90 md:scale-100"></div>
+            </div>
+
+            <!-- Button -->
+            <button onclick="downloadVCard()" class="w-full bg-blue-600 text-white font-bold py-3 md:py-4 rounded-xl md:rounded-2xl shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-all flex items-center justify-center gap-3 text-sm md:text-base">
+                <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+                Kontakt speichern
+            </button>
+        </div>
+
+        <p class="text-center text-slate-400 text-[9px] mt-6 tracking-widest uppercase">Matthias Stumm — Koblenz — 2026</p>
+    </main>
+
+    <script>
+        const getVCardString = () => {
+            return [
+                "BEGIN:VCARD",
+                "VERSION:3.0",
+                "PRODID:-//EuroBOS//Matthias Stumm//DE",
+                "N:Stumm;Matthias;;;",
+                "FN:Matthias Stumm",
+                "ORG:EuroBOS GmbH",
+                "TITLE:Strategy & Visionary Leadership",
+                "TEL;TYPE=WORK,VOICE:+49261921637333",
+                "TEL;TYPE=CELL,VOICE:+491716244472",
+                "EMAIL;TYPE=INTERNET,WORK:M.Stumm@EuroBOS.de",
+                "ADR;TYPE=WORK,POSTAL:;;Zaunheimer Str. 7a;Koblenz;;56072;Germany",
+                "URL;TYPE=WORK:https://www.EuroBOS.de",
+                "REV:" + new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + "Z",
+                "END:VCARD"
+            ].join("\n");
+        };
+
+        window.onload = function() {
+            new QRCode(document.getElementById("qrcode"), {
+                text: getVCardString(),
+                width: 140,
+                height: 140,
+                colorDark : "#002B54",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.M
+            });
+        };
+
+        function downloadVCard() {
+            const vcardData = getVCardString();
+            const blob = new Blob([vcardData], { type: 'text/vcard;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'Matthias_Stumm_EuroBOS.vcf');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
