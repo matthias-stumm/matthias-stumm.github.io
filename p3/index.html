@@ -1,1 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EuroBOS Task-Manager</title>
+    <!-- Meta tags for home screen / PWA feel -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#003366">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --eurobos-blue: #003366;
+            --eurobos-light-blue: #e6f0ff;
+            --eurobos-accent: #0055aa;
+        }
 
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            color: #333;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .eurobos-header {
+            background: linear-gradient(135deg, var(--eurobos-blue) 0%, var(--eurobos-accent) 100%);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-item {
+            border-left: 4px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .task-item.daily { border-left-color: #00A3FF; }
+        .task-item.strategy { border-left-color: #FFB800; }
+
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        /* Touch target optimization */
+        button, .custom-checkbox {
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        .custom-checkbox {
+            width: 26px;
+            height: 26px;
+            border: 2px solid var(--eurobos-blue);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .custom-checkbox.checked {
+            background-color: var(--eurobos-blue);
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .note-area {
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-task {
+            animation: fadeIn 0.3s ease forwards;
+        }
+    </style>
+</head>
+<body class="pb-20">
+
+    <!-- Header mit EuroBOS Branding & Export -->
+    <header class="eurobos-header text-white p-6 mb-6 sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight">EuroBOS Task-Manager</h1>
+                <p class="text-blue-100 text-xs md:text-sm">Matthias' Leitstelle</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="exportData()" title="Als Textdatei exportieren" 
+                        class="bg-white/10 hover:bg-white/20 border border-white/30 px-3 py-2 rounded-lg text-xs transition flex items-center">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Export
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- SEKTION 1: TÄGLICHE AUFGABEN (OPERATIV) -->
+        <section id="daily-section">
+            <div class="card p-5 border-t-4 border-blue-500">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="bg-blue-100 p-2 rounded-lg mr-3 text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800 uppercase tracking-wide text-sm">Operative To-Dos</h2>
+                    </div>
+                    <span id="count-daily" class="bg-blue-50 text-blue-600 text-xs font-bold px-2.5 py-0.5 rounded-full border border-blue-100">0</span>
+                </div>
+                
+                <div class="flex mb-5 shadow-sm">
+                    <input type="text" id="input-daily" placeholder="Was steht heute an?" 
+                           class="flex-1 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-l-xl focus:ring-2 focus:ring-blue-500 p-3 outline-none transition-all">
+                    <button onclick="addTask('daily')" class="bg-blue-600 text-white px-5 py-3 rounded-r-xl hover:bg-blue-700 transition font-bold">
+                        +
+                    </button>
+                </div>
+
+                <ul id="list-daily" class="space-y-3">
+                    <!-- Tasks load here -->
+                </ul>
+            </div>
+        </section>
+
+        <!-- SEKTION 2: PLANUNG & STRATEGIE -->
+        <section id="strategy-section">
+            <div class="card p-5 border-t-4 border-amber-500">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-2 rounded-lg mr-3 text-amber-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h2 class="text-lg font-bold text-gray-800 uppercase tracking-wide text-sm">Strategie & Planung</h2>
+                    </div>
+                    <span id="count-strategy" class="bg-amber-50 text-amber-600 text-xs font-bold px-2.5 py-0.5 rounded-full border border-amber-100">0</span>
+                </div>
+
+                <div class="flex mb-5 shadow-sm">
+                    <input type="text" id="input-strategy" placeholder="Strategisches Ziel..." 
+                           class="flex-1 bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-l-xl focus:ring-2 focus:ring-amber-500 p-3 outline-none transition-all">
+                    <button onclick="addTask('strategy')" class="bg-amber-600 text-white px-5 py-3 rounded-r-xl hover:bg-amber-700 transition font-bold">
+                        +
+                    </button>
+                </div>
+
+                <ul id="list-strategy" class="space-y-3">
+                    <!-- Tasks load here -->
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Feedback Container -->
+    <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 md:left-auto md:right-5 md:translate-x-0 z-50 w-full max-w-xs px-4"></div>
+
+    <script>
+        // State Management
+        let tasks = JSON.parse(localStorage.getItem('eurobos_tasks_v3')) || {
+            daily: [],
+            strategy: []
+        };
+
+        // Initialize UI
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTasks();
+            
+            // Listeners for Enter keys
+            ['daily', 'strategy'].forEach(type => {
+                document.getElementById(`input-${type}`).addEventListener('keypress', (e) => { 
+                    if(e.key === 'Enter') addTask(type); 
+                });
+            });
+        });
+
+        function addTask(type) {
+            const input = document.getElementById(`input-${type}`);
+            const text = input.value.trim();
+            
+            if (text === '') return;
+
+            const newTask = {
+                id: Date.now(),
+                text: text,
+                completed: false,
+                date: new Date().toLocaleDateString('de-DE'),
+                notes: "",
+                showNotes: false
+            };
+
+            tasks[type].unshift(newTask); 
+            saveAndRender();
+            input.value = '';
+            showToast('Aufgabe erfasst');
+        }
+
+        function toggleTask(type, id) {
+            tasks[type] = tasks[type].map(task => {
+                if (task.id === id) return { ...task, completed: !task.completed };
+                return task;
+            });
+            saveAndRender();
+        }
+
+        function toggleNoteVisibility(id) {
+            tasks.strategy = tasks.strategy.map(task => {
+                if (task.id === id) return { ...task, showNotes: !task.showNotes };
+                return task;
+            });
+            renderTasks();
+        }
+
+        function updateNote(id, noteText) {
+            tasks.strategy = tasks.strategy.map(task => {
+                if (task.id === id) return { ...task, notes: noteText };
+                return task;
+            });
+            localStorage.setItem('eurobos_tasks_v3', JSON.stringify(tasks));
+        }
+
+        function deleteTask(type, id) {
+            tasks[type] = tasks[type].filter(task => task.id !== id);
+            saveAndRender();
+            showToast('Eintrag gelöscht', 'bg-gray-700');
+        }
+
+        function saveAndRender() {
+            localStorage.setItem('eurobos_tasks_v3', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function renderTasks() {
+            ['daily', 'strategy'].forEach(type => {
+                const list = document.getElementById(`list-${type}`);
+                const counter = document.getElementById(`count-${type}`);
+                list.innerHTML = '';
+
+                const activeCount = tasks[type].filter(t => !t.completed).length;
+                counter.textContent = activeCount;
+
+                tasks[type].forEach(task => {
+                    const li = document.createElement('li');
+                    li.className = `task-item ${type} bg-white border border-gray-100 rounded-xl shadow-sm animate-task overflow-hidden`;
+                    
+                    let strategySpecificUI = '';
+                    if (type === 'strategy') {
+                        strategySpecificUI = `
+                            <button onclick="toggleNoteVisibility(${task.id})" class="p-2 transition-colors ${task.notes.length > 0 ? 'text-amber-500' : 'text-gray-300'} hover:text-amber-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
+                            </button>
+                        `;
+                    }
+
+                    li.innerHTML = `
+                        <div class="p-3 flex items-center justify-between">
+                            <div class="flex items-center flex-1 mr-2 min-w-0">
+                                <div onclick="toggleTask('${type}', ${task.id})" class="custom-checkbox ${task.completed ? 'checked' : ''} mr-3"></div>
+                                <div class="min-w-0">
+                                    <p class="text-sm md:text-base font-medium transition-all ${task.completed ? 'completed text-gray-400' : 'text-gray-800'} break-words">
+                                        ${task.text}
+                                    </p>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">${task.date}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                ${strategySpecificUI}
+                                <button onclick="deleteTask('${type}', ${task.id})" class="text-gray-300 hover:text-red-500 p-2 transition-colors">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                        ${type === 'strategy' && task.showNotes ? `
+                            <div class="px-3 pb-3">
+                                <textarea oninput="updateNote(${task.id}, this.value)" placeholder="Details, Notizen oder Zwischenschritte..." 
+                                          class="note-area w-full p-2 rounded-lg border-none focus:ring-1 focus:ring-amber-400 outline-none text-gray-700 min-h-[80px]">${task.notes}</textarea>
+                            </div>
+                        ` : ''}
+                    `;
+                    list.appendChild(li);
+                });
+
+                if (tasks[type].length === 0) {
+                    list.innerHTML = `
+                        <div class="text-center py-10 opacity-30 flex flex-col items-center">
+                            <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            <p class="text-sm italic">Alle Aufgaben erledigt</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function exportData() {
+            let content = "EUROBOS TASK-MANAGER - EXPORT\n";
+            content += "Stand: " + new Date().toLocaleString('de-DE') + "\n";
+            content += "==========================================\n\n";
+
+            content += "OPERATIVE TO-DOS:\n";
+            if(tasks.daily.length === 0) content += "- Keine Einträge -\n";
+            tasks.daily.forEach(t => {
+                content += `[${t.completed ? 'X' : ' '}] ${t.text} (${t.date})\n`;
+            });
+
+            content += "\nSTRATEGIE & PLANUNG:\n";
+            if(tasks.strategy.length === 0) content += "- Keine Einträge -\n";
+            tasks.strategy.forEach(t => {
+                content += `[${t.completed ? 'X' : ' '}] ${t.text} (${t.date})\n`;
+                if(t.notes && t.notes.trim() !== "") {
+                    content += `    NOTIZEN: ${t.notes.replace(/\n/g, '\n    ')}\n`;
+                }
+            });
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `EuroBOS_Export_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast('Export erfolgreich', 'bg-green-600');
+        }
+
+        function showToast(message, colorClass = 'bg-blue-600') {
+            const toast = document.createElement('div');
+            toast.className = `${colorClass} text-white px-5 py-3 rounded-xl shadow-2xl mb-3 flex items-center justify-between transition-all duration-300 transform translate-y-10 opacity-0`;
+            toast.innerHTML = `
+                <span class="text-sm font-medium">${message}</span>
+                <svg class="w-4 h-4 ml-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            `;
+            const container = document.getElementById('toast-container');
+            container.appendChild(toast);
+            
+            setTimeout(() => { toast.classList.remove('translate-y-10', 'opacity-0'); }, 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
