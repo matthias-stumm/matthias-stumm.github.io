@@ -932,7 +932,35 @@
       }
 
       .hero-visual {
-        min-height: 460px;
+        min-height: auto;
+        padding: 28px;
+        border-radius: 18px;
+      }
+
+      .hero-card {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        z-index: 1;
+      }
+
+      .hero-scene {
+        position: relative;
+        inset: auto;
+        z-index: 1;
+        width: min(100%, 560px);
+        height: auto;
+        margin: 28px auto 0;
+      }
+
+      .scene-label {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        z-index: 1;
+        max-width: none;
+        margin-top: 18px;
       }
 
       .grid.formats,
@@ -986,21 +1014,17 @@
       }
 
       .hero-visual {
-        min-height: 390px;
+        min-height: auto;
+        padding: 16px;
         border-radius: 16px;
       }
 
       .hero-card {
-        left: 16px;
-        right: 16px;
-        top: 16px;
         padding: 18px;
       }
 
       .scene-label {
-        left: 16px;
-        bottom: 24px;
-        max-width: 210px;
+        margin-top: 14px;
       }
 
       .intro-panel,
@@ -1051,7 +1075,6 @@
           <h1 id="hero-title">Künstliche Intelligenz? Kann ich auch.</h1>
           <p class="lead">Vorträge und Kursformate für Seniorinnen und Senioren, Bildungseinrichtungen und alle, die KI einfach verstehen und sinnvoll nutzen möchten – verständlich, praktisch und ohne Fachchinesisch.</p>
           <div class="hero-actions">
-            <a class="button" href="/fit-im-kopf/#kontakt">Kontakt aufnehmen</a>
             <a class="button secondary" href="/fit-im-kopf/#themen">Themen ansehen</a>
           </div>
           <div class="trust-strip" aria-label="Schwerpunkte">
@@ -1169,6 +1192,11 @@
             <p>Grundbegriffe einfach erklärt, ohne mathematische oder technische Hürden.</p>
           </article>
           <article class="card reveal">
+            <div class="icon" aria-hidden="true">E</div>
+            <h3>Einordnung Künstlicher Intelligenz</h3>
+            <p>Wo steht Künstliche Intelligenz heute in unserem Alltag? Dieses Thema ordnet ein, wie KI Kommunikation, Lernen und den Umgang mit Informationen verändert. Verständlich, praxisnah und ohne Übertreibung.</p>
+          </article>
+          <article class="card reveal">
             <div class="icon" aria-hidden="true">C</div>
             <h3>Welche KI-Werkzeuge passen zu mir?</h3>
             <p>Ein Überblick über Angebote neben ChatGPT und eine einfache Orientierung, welches Werkzeug für den eigenen Alltag sinnvoll ist.</p>
@@ -1222,12 +1250,12 @@
       <div class="wrap about">
         <div class="portrait reveal">
           <img src="images/matthias.jpg" alt="Matthias Stumm">
-          <div class="portrait-note">Matthias Stumm<br><span class="portrait-role">Marketing, Vertrieb, Präsentation</span></div>
+          <div class="portrait-note">Matthias Stumm<br><span class="portrait-role">Marketing, Vertrieb, Kommunikation</span></div>
         </div>
         <div class="about-copy reveal">
           <p class="eyebrow">Über mich</p>
           <h2 id="ueber-title">Komplexe Themen verständlich und menschlich vermitteln.</h2>
-          <p>Mein Name ist Matthias Stumm. Ich bin seit über 30 Jahren im Bereich Marketing, Vertrieb und Präsentation tätig. Meine Stärke ist es, komplexe Themen in klare Sprache zu übersetzen, Menschen mitzunehmen und Inhalte so zu erklären, dass sie im Alltag ankommen.</p>
+          <p>Mein Name ist Matthias Stumm. Ich bin seit über 30 Jahren im Bereich Marketing, Vertrieb und Kommunikation tätig. Meine Stärke ist es, komplexe Themen in klare Sprache zu übersetzen, Menschen mitzunehmen und Inhalte so zu erklären, dass sie im Alltag ankommen.</p>
           <p>In den letzten Jahren habe ich Künstliche Intelligenz intensiv in meinen beruflichen und privaten Alltag integriert. Heute möchte ich dieses Wissen weitergeben – einfach, praxisnah, ohne Angst und mit Freude am Lernen.</p>
         </div>
       </div>
