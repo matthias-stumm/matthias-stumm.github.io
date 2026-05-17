@@ -645,42 +645,31 @@
 
     .portrait {
       min-height: 360px;
+      aspect-ratio: 4 / 5;
       border-radius: 18px;
       position: relative;
       overflow: hidden;
       border: 1px solid rgba(31, 42, 51, 0.10);
       box-shadow: var(--shadow);
-      background:
-        linear-gradient(155deg, rgba(49, 91, 124, 0.18), transparent 45%),
-        linear-gradient(25deg, rgba(47, 125, 104, 0.20), transparent 44%),
-        #fffaf2;
+      background: var(--surface-strong);
     }
 
-    .portrait::before,
     .portrait::after {
       content: "";
       position: absolute;
-      border-radius: 50%;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(to top, rgba(7, 16, 22, 0.74), rgba(7, 16, 22, 0.06) 46%, transparent 68%);
+      pointer-events: none;
     }
 
-    .portrait::before {
-      width: 130px;
-      height: 130px;
-      left: 50%;
-      top: 62px;
-      transform: translateX(-50%);
-      background: #e2b78d;
-      box-shadow: 0 128px 0 64px var(--green);
-    }
-
-    .portrait::after {
-      width: 260px;
-      height: 120px;
-      left: 50%;
-      bottom: 22px;
-      transform: translateX(-50%);
-      border-radius: 120px 120px 26px 26px;
-      background: rgba(31, 42, 51, 0.92);
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      display: block;
+      object-fit: cover;
+      object-position: center;
     }
 
     .portrait-note {
@@ -691,14 +680,15 @@
       z-index: 2;
       padding: 16px;
       border-radius: var(--radius);
-      background: var(--surface-strong);
-      color: var(--ink);
+      background: rgba(7, 16, 22, 0.78);
+      color: var(--white);
       font-weight: 780;
-      box-shadow: 0 12px 28px rgba(31, 42, 51, 0.14);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(10px);
     }
 
     .portrait-role {
-      color: var(--muted);
+      color: rgba(255, 255, 255, 0.74);
       font-weight: 650;
     }
 
@@ -1230,7 +1220,8 @@
 
     <section class="section alt" id="ueber-mich" aria-labelledby="ueber-title">
       <div class="wrap about">
-        <div class="portrait reveal" aria-label="Stilisierte Darstellung von Matthias Stumm">
+        <div class="portrait reveal">
+          <img src="images/matthias.jpg" alt="Matthias Stumm">
           <div class="portrait-note">Matthias Stumm<br><span class="portrait-role">Marketing, Vertrieb, Präsentation</span></div>
         </div>
         <div class="about-copy reveal">
